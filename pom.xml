@@ -100,6 +100,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
+
 		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -131,6 +139,23 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>false</addResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>target/tested-docker</repository>
+					<tag>${project.version}</tag>
 				</configuration>
 			</plugin>
 		</plugins>

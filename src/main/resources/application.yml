@@ -51,7 +51,38 @@ hotel.service:
   name: 'test profile:'
   
 logging:
-  file: boot_example.log
+  file: boot_test.log
+  org.hibernate: DEBUG
+
+---
+spring:
+  profiles: prod
+  h2:
+    console:
+      enabled: true
+
+spring.datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: ${mysql.url:jdbc:mysql://0.0.0.0:6033/bootrest_example}
+  ---url: jdbc:mysql://0.0.0.0:6033/bootrest_example
+  --url: jdbc:mysql://127.0.0.1:6033/bootrest_example
+  username: root
+  password: root
+  testWhileIdle: true
+  validationQuery: SELECT 1
+
+spring.jpa:
+  show-sql: true
+  hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  hibernate.ddl-auto: create-drop
+
+hotel.service:
+  name: 'prod profile:'
+
+logging:
+  file: boot_prod.log
   org.hibernate: INFO
+
 
  

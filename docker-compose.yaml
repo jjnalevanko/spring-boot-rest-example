@@ -1,0 +1,37 @@
+version: '3'
+services:
+  docker-mysql:
+    restart: always
+    container_name: docker-mysql
+    image: mysql:5
+    environment:
+      MYSQL_DATABASE: bootrest_example
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+    ports:
+      - "6033:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
+
+  bt-docker-demo:
+    restart: on-failure
+    build: ./
+    expose:
+      - "8090"
+      - "8091"
+    ports:
+      - 8090:8090
+      - 8091:8091
+    environment:
+      WAIT_HOSTS: mysql:3306
+      spring.profiles.active: prod
+      mysql.url: jdbc:mysql://docker-mysql:3306/bootrest_example
+    links:
+      - docker-mysql
+    depends_on:
+      - docker-mysql
